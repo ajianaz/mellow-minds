@@ -5,6 +5,7 @@ import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:mellowminds/app/data/models/jwt_payload_model.dart';
+import 'package:mellowminds/app/routes/app_pages.dart';
 
 class LoginController extends GetxController {
   var clientID = const String.fromEnvironment('CLIENT_ID');
@@ -46,9 +47,11 @@ class LoginController extends GetxController {
         await secureStorage.write(key: 'accessToken', value: accessToken);
         await secureStorage.write(key: 'refresh_token', value: refreshToken);
 
+        Get.toNamed(Routes.HOME);
+
         //Decode JWT token to Model
-        jwtPayload = decodeJwt(accessToken.toString());
-        update();
+        // jwtPayload = decodeJwt(accessToken.toString());
+        // update();
       }
     } catch (e) {
       debugPrint(e.toString());

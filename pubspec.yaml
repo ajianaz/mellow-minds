@@ -2,22 +2,23 @@ name: mellowminds
 version: 1.0.0+1
 publish_to: none
 description: Mellow Minds.
-environment: 
+environment:
   sdk: '>=3.3.1 <4.0.0'
 
-dependencies: 
+dependencies:
   cupertino_icons: ^1.0.6
   get: 4.6.6
   flutter_appauth: 6.0.6
   flutter_secure_storage: 9.2.2
-  flutter: 
+  flutter:
     sdk: flutter
 
-dev_dependencies: 
+dev_dependencies:
   flutter_lints: 4.0.0
-  flutter_test: 
+  flutter_test:
     sdk: flutter
 
-flutter: 
+flutter:
+  assets:
+    - assets/images/
   uses-material-design: true
-

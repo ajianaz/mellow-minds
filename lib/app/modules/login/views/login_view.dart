@@ -12,27 +12,32 @@ class LoginView extends GetView<LoginController> {
         init: LoginController(),
         builder: (_) {
           return Scaffold(
-            appBar: AppBar(
-              title: Text('Flutter Keycloak Login'),
-            ),
-            body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  if (_.accessToken != null)
-                    Text('Name: ${_.jwtPayload?.name}'),
-                  if (_.accessToken == null)
-                    ElevatedButton(
-                      onPressed: _.login,
-                      child: Text('Login with Keycloak'),
-                    ),
-                  if (_.accessToken != null)
-                    ElevatedButton(
-                      onPressed: _.logout,
-                      child: Text('Logout'),
-                    ),
-                ],
-              ),
+            body: Stack(
+              children: [
+                Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Image.asset(
+                        "assets/images/char_cat.png",
+                        fit: BoxFit.fill,
+                      ),
+                      if (_.accessToken != null)
+                        Text('Name: ${_.jwtPayload?.name}'),
+                      if (_.accessToken == null)
+                        ElevatedButton(
+                          onPressed: _.login,
+                          child: Text('Login'),
+                        ),
+                      if (_.accessToken != null)
+                        ElevatedButton(
+                          onPressed: _.logout,
+                          child: Text('Logout'),
+                        ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           );
         });
