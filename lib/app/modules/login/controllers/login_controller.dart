@@ -64,6 +64,7 @@ class LoginController extends GetxController {
     if (accessToken != null) {
       jwtPayload = decodeJwt(accessToken.toString());
       update();
+      Get.toNamed(Routes.HOME);
     }
   }
 
@@ -104,7 +105,7 @@ class LoginController extends GetxController {
     debugPrint(clientSecret);
     debugPrint(issuer);
     debugPrint(redirectUrlOauth);
-    logout(); //Uncomment for reset
+    // logout(); //Uncomment for reset
     checkTokenSaved();
   }
 
