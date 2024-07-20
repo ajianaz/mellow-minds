@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/feeling_confirmation/bindings/feeling_confirmation_binding.dart';
+import '../modules/feeling_confirmation/views/feeling_confirmation_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
@@ -22,6 +24,11 @@ class AppPages {
       name: _Paths.LOGIN,
       page: () => const LoginView(),
       binding: LoginBinding(),
+    ),
+    GetPage(
+      name: _Paths.FEELING_CONFIRMATION,
+      page: () => const FeelingConfirmationView(),
+      binding: FeelingConfirmationBinding(),
     ),
   ];
 }
