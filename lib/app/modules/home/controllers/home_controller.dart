@@ -9,6 +9,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:magic_view/magic_view.dart';
 import 'package:mellowminds/app/data/models/jwt_payload_model.dart';
+import 'package:mellowminds/app/routes/app_pages.dart';
 
 class HomeController extends GetxController {
   final FlutterSecureStorage secureStorage = FlutterSecureStorage();
@@ -17,7 +18,7 @@ class HomeController extends GetxController {
 
   JwtPayload? jwtPayload;
 
-  dynamic sliderValue;
+  dynamic sliderValue = 100.0;
 
   var listIcons = [
     'ic_face_great.svg',
@@ -102,7 +103,15 @@ class HomeController extends GetxController {
               },
             ),
             MagicButton(
-              () {},
+              () {
+                Get.toNamed(
+                  Routes.FEELING_CONFIRMATION,
+                  arguments: {
+                    'type': listIconsTitle[index],
+                    'rate': sliderValue,
+                  },
+                );
+              },
               text: "Next",
             ),
           ],
