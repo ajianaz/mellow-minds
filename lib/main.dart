@@ -20,8 +20,8 @@ void main() async {
   );
 
   MagicFactory.initMagicFactory(
-    colorBrand: Color(0xFF503E9D),
-    colorBrand2: Color(0xFF00cec9),
+    colorBrand: Color(0xFF00cec9),
+    colorBrand2: Color(0xFF503E9D),
     fontFamily: FontFamily.roboto,
     fontName: fontName,
   );

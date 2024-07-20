@@ -1,7 +1,13 @@
 import 'dart:convert';
 
+import 'package:adk_tools/adk_tools.dart';
+import 'package:another_xlider/another_xlider.dart';
+import 'package:another_xlider/models/handler.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:magic_view/magic_view.dart';
 import 'package:mellowminds/app/data/models/jwt_payload_model.dart';
 
 class HomeController extends GetxController {
@@ -10,6 +16,23 @@ class HomeController extends GetxController {
   String? refreshToken;
 
   JwtPayload? jwtPayload;
+
+  dynamic sliderValue;
+
+  var listIcons = [
+    'ic_face_great.svg',
+    'ic_face_good.svg',
+    'ic_face_okay.svg',
+    'ic_face_not_great.svg',
+    'ic_face_bad.svg',
+  ];
+  var listIconsTitle = [
+    'Great',
+    'Good',
+    'Okay',
+    'Bad',
+    'Sad',
+  ];
 
   checkTokenSaved() async {
     // Read value
@@ -50,5 +73,39 @@ class HomeController extends GetxController {
     } catch (e) {
       throw Exception('Error decoding JWT: $e');
     }
+  }
+
+  openSlider(BuildContext context, int index) {
+    showMagicDialog(context,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            MagicText.subhead(
+              "Rate the Intensity of Your Feeling (${listIconsTitle[index]})",
+            ),
+            FlutterSlider(
+              values: [100],
+              handler: FlutterSliderHandler(
+                child: SvgPicture.asset(
+                  AppAsset.icon(
+                    listIcons[index],
+                  ),
+                  height: 42,
+                ),
+              ),
+              max: 100,
+              min: 0,
+              onDragging: (handlerIndex, lowerValue, upperValue) {
+                sliderValue = lowerValue;
+                update();
+                logSys("Bawah: $sliderValue");
+              },
+            ),
+            MagicButton(
+              () {},
+              text: "Next",
+            ),
+          ],
+        ));
   }
 }
