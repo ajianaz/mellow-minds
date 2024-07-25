@@ -38,9 +38,23 @@ class HomeView extends GetView<HomeController> {
 
                   //Chat History
                   Gap(36),
-                  MagicText.subhead(
-                    "Chat History",
-                    fontSize: 20,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        MagicText.subhead(
+                          "Chat History",
+                          fontSize: 20,
+                        ),
+                        InkWell(
+                          onTap: () => controller.refreshChat(),
+                          child: Icon(
+                            Icons.refresh,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                   Gap(12),
                   switch (controller.listChatHistory.value.statusRequest) {

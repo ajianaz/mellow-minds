@@ -138,4 +138,8 @@ class HomeController extends GetxController {
       logSys(e.toString());
     }
   }
+
+  refreshChat() {
+    getChatHistory();
+  }
 }
