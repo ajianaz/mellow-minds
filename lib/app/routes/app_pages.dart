@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/chatting/bindings/chatting_binding.dart';
+import '../modules/chatting/views/chatting_view.dart';
 import '../modules/feeling_confirmation/bindings/feeling_confirmation_binding.dart';
 import '../modules/feeling_confirmation/views/feeling_confirmation_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -36,6 +38,11 @@ class AppPages {
       name: _Paths.PROFILE,
       page: () => const ProfileView(),
       binding: ProfileBinding(),
+    ),
+    GetPage(
+      name: _Paths.CHATTING,
+      page: () => const ChattingView(),
+      binding: ChattingBinding(),
     ),
   ];
 }

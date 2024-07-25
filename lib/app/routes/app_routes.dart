@@ -7,6 +7,7 @@ abstract class Routes {
   static const LOGIN = _Paths.LOGIN;
   static const FEELING_CONFIRMATION = _Paths.FEELING_CONFIRMATION;
   static const PROFILE = _Paths.PROFILE;
+  static const CHATTING = _Paths.CHATTING;
 }
 
 abstract class _Paths {
@@ -15,4 +16,5 @@ abstract class _Paths {
   static const LOGIN = '/login';
   static const FEELING_CONFIRMATION = '/feeling-confirmation';
   static const PROFILE = '/profile';
+  static const CHATTING = '/chatting';
 }

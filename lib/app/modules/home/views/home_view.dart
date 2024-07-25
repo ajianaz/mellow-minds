@@ -80,53 +80,57 @@ class HomeView extends GetView<HomeController> {
                                 controller.listChatHistory.value.data?[index];
                             int idxIcon = controller.listIconsTitle
                                 .indexOf(item!.feeling.toString());
-                            return Container(
-                              margin: EdgeInsets.symmetric(vertical: 4),
-                              width: double.infinity,
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 24, vertical: 24),
-                              decoration: BoxDecoration(
-                                color: Colors.blueGrey.shade500,
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(24),
+                            return InkWell(
+                              onTap: () => Get.toNamed(Routes.CHATTING,
+                                  arguments: {'chat': item}),
+                              child: Container(
+                                margin: EdgeInsets.symmetric(vertical: 4),
+                                width: double.infinity,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 24, vertical: 24),
+                                decoration: BoxDecoration(
+                                  color: Colors.blueGrey.shade500,
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(24),
+                                  ),
                                 ),
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      MagicText.subhead(
-                                        "${item.feeling} with ${item.reason}",
-                                        fontSize: 20,
-                                        color: Colors.white,
-                                      ),
-                                      MagicText.subhead(
-                                        FormatDateTime.format(
-                                          value: item.createdAt as DateTime,
-                                          format: DateFormat(
-                                            "EEE, dd MMM yyyy",
-                                          ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        MagicText.subhead(
+                                          "${item.feeling} with ${item.reason}",
+                                          fontSize: 20,
+                                          color: Colors.white,
                                         ),
-                                        fontSize: 12,
-                                        color: Colors.white60,
-                                      ),
-                                    ],
-                                  ),
-                                  CircleAvatar(
-                                    radius: 20,
-                                    backgroundColor: Colors.white,
-                                    child: SvgPicture.asset(
-                                      AppAsset.icon(
-                                          controller.listIcons[idxIcon]),
-                                      height: 32,
-                                      width: 32,
+                                        MagicText.subhead(
+                                          FormatDateTime.format(
+                                            value: item.createdAt as DateTime,
+                                            format: DateFormat(
+                                              "EEE, dd MMM yyyy",
+                                            ),
+                                          ),
+                                          fontSize: 12,
+                                          color: Colors.white60,
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                ],
+                                    CircleAvatar(
+                                      radius: 20,
+                                      backgroundColor: Colors.white,
+                                      child: SvgPicture.asset(
+                                        AppAsset.icon(
+                                            controller.listIcons[idxIcon]),
+                                        height: 32,
+                                        width: 32,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             );
                           },
