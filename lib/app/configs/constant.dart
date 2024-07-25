@@ -2,9 +2,9 @@
 
 import 'package:adk_tools/adk_tools.dart';
 
-const urlDev = "https://api.komikhub.lol";
-const apiKey = "komikhub";
-const appName = "Komikhub";
+const urlDev = "https://auto.ajianaz.dev";
+const apiKey = "Mellow Minds";
+const appName = "Mellow Minds";
 const appFlavor = Flavor.development;
 
 const fontName = "Roboto";

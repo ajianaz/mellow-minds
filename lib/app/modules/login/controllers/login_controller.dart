@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:adk_tools/adk_tools.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -13,8 +14,8 @@ class LoginController extends GetxController {
   var clientSecret = const String.fromEnvironment('CLIENT_SECRET');
   var issuer = const String.fromEnvironment('ISSUER');
 
-  final FlutterAppAuth appAuth = FlutterAppAuth();
-  final FlutterSecureStorage secureStorage = FlutterSecureStorage();
+  final FlutterAppAuth appAuth = const FlutterAppAuth();
+  final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
   String? accessToken;
   String? refreshToken;
 
@@ -44,8 +45,9 @@ class LoginController extends GetxController {
 
         // Store tokens securely
         await secureStorage.write(key: 'id_token', value: result.idToken);
-        await secureStorage.write(key: 'accessToken', value: accessToken);
+        await secureStorage.write(key: ADKTools.boxToken, value: accessToken);
         await secureStorage.write(key: 'refresh_token', value: refreshToken);
+        await AppStorage.write(key: ADKTools.boxToken, value: accessToken);
 
         Get.toNamed(Routes.HOME);
 
@@ -60,17 +62,17 @@ class LoginController extends GetxController {
 
   checkTokenSaved() async {
     // Read value
-    accessToken = await secureStorage.read(key: 'accessToken');
+    accessToken = await secureStorage.read(key: ADKTools.boxToken);
     if (accessToken != null) {
       jwtPayload = decodeJwt(accessToken.toString());
       update();
-      Get.toNamed(Routes.HOME);
+      Get.offAllNamed(Routes.HOME);
     }
   }
 
   Future<void> logout() async {
     // Clear tokens from secure storage
-    await secureStorage.delete(key: 'access_token');
+    await secureStorage.delete(key: ADKTools.boxToken);
     await secureStorage.delete(key: 'refresh_token');
     await secureStorage.delete(key: 'id_token');
 
