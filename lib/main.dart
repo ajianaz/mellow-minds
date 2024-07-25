@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:magic_view/factory.dart';
 import 'package:magic_view/property/font/font.dart';
 import 'package:adk_tools/adk_tools.dart';
@@ -26,6 +27,7 @@ void main() async {
     fontName: fontName,
   );
 
+  await GetStorage.init();
   await ApiService().init();
 
   runApp(
