@@ -12,7 +12,7 @@ import 'package:mellowminds/app/data/models/jwt_payload_model.dart';
 import 'package:mellowminds/app/routes/app_pages.dart';
 
 class HomeController extends GetxController {
-  final FlutterSecureStorage secureStorage = FlutterSecureStorage();
+  final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
   String? accessToken;
   String? refreshToken;
 
@@ -37,7 +37,7 @@ class HomeController extends GetxController {
 
   checkTokenSaved() async {
     // Read value
-    accessToken = await secureStorage.read(key: 'accessToken');
+    accessToken = await secureStorage.read(key: ADKTools.boxToken);
     if (accessToken != null) {
       jwtPayload = decodeJwt(accessToken.toString());
       update();
@@ -104,6 +104,7 @@ class HomeController extends GetxController {
             ),
             MagicButton(
               () {
+                Get.back();
                 Get.toNamed(
                   Routes.FEELING_CONFIRMATION,
                   arguments: {

@@ -19,69 +19,69 @@ class HomeView extends GetView<HomeController> {
       init: HomeController(),
       builder: (controller) {
         return Scaffold(
-          appBar: AppBar(
-            title: const Text('HomeView'),
-            centerTitle: true,
-          ),
-          body: Container(
-            padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                HomeHeader(
-                  controller: controller,
-                ),
-                Gap(42),
-
-                FeelingCard(
-                  controller: controller,
-                ),
-
-                Gap(24),
-                //History
-                MagicText.subhead("History"),
-                Gap(12),
-                Expanded(
-                  child: ListView(
-                    scrollDirection: Axis.vertical,
-                    children: [
-                      Container(
-                        width: double.infinity,
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-                        decoration: BoxDecoration(
-                          color: Colors.green,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(24),
-                          ),
-                        ),
-                        child: MagicText.subhead(
-                          "Saya merasa sedih",
-                          fontSize: 20,
-                          color: Colors.white,
-                        ),
-                      ),
-                      Gap(8),
-                      Container(
-                        width: double.infinity,
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-                        decoration: BoxDecoration(
-                          color: Colors.green,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(24),
-                          ),
-                        ),
-                        child: MagicText.subhead(
-                          "Saya merasa senang",
-                          fontSize: 20,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
+          body: SafeArea(
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  HomeHeader(
+                    controller: controller,
                   ),
-                )
-              ],
+                  Gap(42),
+
+                  FeelingCard(
+                    controller: controller,
+                  ),
+
+                  //Chat History
+                  Gap(24),
+                  MagicText.subhead(
+                    "Chat History",
+                  ),
+                  Gap(12),
+                  Expanded(
+                    child: ListView(
+                      scrollDirection: Axis.vertical,
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 24, vertical: 24),
+                          decoration: BoxDecoration(
+                            color: Colors.green,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(24),
+                            ),
+                          ),
+                          child: MagicText.subhead(
+                            "I feel sad",
+                            fontSize: 20,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Gap(8),
+                        Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 24, vertical: 24),
+                          decoration: BoxDecoration(
+                            color: Colors.green,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(24),
+                            ),
+                          ),
+                          child: MagicText.subhead(
+                            "I feel happy",
+                            fontSize: 20,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         );
@@ -183,7 +183,7 @@ class FeelingCard extends StatelessWidget {
           ),
           Gap(12),
           MagicText.subhead(
-            "Choose One for Open Chat",
+            "Choose one for new chat",
             color: Colors.white60,
             fontSize: 14,
           ),
