@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:magic_view/factory.dart';
 import 'package:magic_view/widget/text/MagicText.dart';
+import 'package:mellowminds/app/routes/app_pages.dart';
 import 'package:mellowminds/app/utils/helpers.dart';
 
 import '../controllers/home_controller.dart';
@@ -158,9 +159,12 @@ class HomeHeader extends StatelessWidget {
           Helper.getGreeting(),
           fontSize: 24,
         ),
-        MagicText.subhead(
-          "${controller.jwtPayload?.name}",
-          fontSize: 32,
+        InkWell(
+          onTap: () => Get.toNamed(Routes.PROFILE),
+          child: MagicText.subhead(
+            "${controller.jwtPayload?.name}",
+            fontSize: 32,
+          ),
         ),
       ],
     );
