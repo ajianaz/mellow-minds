@@ -17,48 +17,65 @@ class FeelingConfirmationView extends GetView<FeelingConfirmationController> {
         init: FeelingConfirmationController(),
         builder: (controller) {
           return Scaffold(
-              appBar: AppBar(
-                // title: const Text('FeelingConfirmationView'),
-                centerTitle: true,
-              ),
-              body: Container(
-                padding: EdgeInsets.symmetric(
-                  vertical: 24,
-                  // horizontal: 24,
-                ),
-                child: GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
+            appBar: AppBar(
+              // title: const Text('FeelingConfirmationView'),
+              centerTitle: true,
+            ),
+            body: SafeArea(
+              child: Column(
+                children: [
+                  Gap(24),
+                  MagicText.subhead(
+                    "How are you feeling about ?",
+                    fontSize: 24,
                   ),
-                  itemCount: controller.listIcons.length,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        Container(
-                          height: 100,
-                          width: 100,
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 12),
-                          decoration: BoxDecoration(
-                            color: MagicFactory.colorBrand,
-                            borderRadius: BorderRadius.circular(
-                              24,
-                            ),
+                  Gap(36),
+                  Expanded(
+                    child: GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                      ),
+                      itemCount: controller.listIcons.length,
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTap: () {
+                            controller.openDialog(index);
+                            logSys(
+                                "${controller.listIconsTitle[index].toLowerCase()}");
+                          },
+                          child: Column(
+                            children: [
+                              Container(
+                                height: 100,
+                                width: 100,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 12),
+                                decoration: BoxDecoration(
+                                  color: MagicFactory.colorBrand,
+                                  borderRadius: BorderRadius.circular(
+                                    24,
+                                  ),
+                                ),
+                                child: SvgPicture.asset(
+                                  AppAsset.icon(controller.listIcons[index]),
+                                ),
+                              ),
+                              Gap(8),
+                              MagicText.subhead(
+                                controller.listIconsTitle[index],
+                                fontSize: 18,
+                              )
+                            ],
                           ),
-                          child: SvgPicture.asset(
-                            AppAsset.icon(controller.listIcons[index]),
-                          ),
-                        ),
-                        Gap(8),
-                        MagicText.subhead(
-                          controller.listIconsTitle[index],
-                          fontSize: 18,
-                        )
-                      ],
-                    );
-                  },
-                ),
-              ));
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
         });
   }
 }
