@@ -77,6 +77,28 @@ class ChattingController extends GetxController {
     }
   }
 
+  sendNewMessage(types.TextMessage message) async {
+    try {
+      await ApiConn.sendNewMessage(chatId.toString(), message.text)
+          .then((value) {
+        // listChatMessages.value = value;
+        if (value.statusRequest == StatusRequest.SUCCESS) {
+          addMessage(message);
+          addMessage(types.TextMessage(
+            author: value.data?.sender == "bot" ? bot : user,
+            id: "${value.data?.chatId}",
+            type: types.MessageType.text,
+            text: "${value.data?.message}",
+          ));
+
+          update();
+        }
+      });
+    } catch (e) {
+      logSys(e.toString());
+    }
+  }
+
   void addMessage(types.Message message) {
     messages.insert(0, message);
     update();
@@ -90,7 +112,10 @@ class ChattingController extends GetxController {
       text: message.text,
     );
 
-    addMessage(textMessage);
+    sendNewMessage(
+      textMessage,
+    );
+    // addMessage(textMessage);
     //send message to server
   }
 }

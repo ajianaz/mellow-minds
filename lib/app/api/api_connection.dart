@@ -69,4 +69,30 @@ class ApiConn {
       rethrow;
     }
   }
+
+  static Future<StatusRequestModel<MessageModel>> sendNewMessage(
+      String chatId, String message) async {
+    try {
+      const url = '/webhook/new-message';
+      var params = {"chat_id": chatId, "message": message};
+
+      final response = await ApiService().request(
+          url: url, method: Method.POST, isToken: true, parameters: params);
+
+      // logSys("RESPONSE : ${response.toString()}");
+
+      final model = toDefaultModel(response);
+      if (model.success == true) {
+        return StatusRequestModel.success(
+            MessageModel.fromJson(model.data)); // For Single Model (not list)
+        // return StatusRequestModel.success(List<MessageModel>.from(
+        //     (model.data).map((u) => MessageModel.fromJson(u))));
+      } else {
+        logSys(model.message.toString());
+        return StatusRequestModel.error(failure(response.statusCode, model));
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

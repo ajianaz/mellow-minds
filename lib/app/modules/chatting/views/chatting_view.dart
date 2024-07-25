@@ -23,7 +23,7 @@ class ChattingView extends GetView<ChattingController> {
               centerTitle: true,
             ),
             body: Chat(
-              messages: controller.messages,
+              messages: controller.messages.toList(),
               onSendPressed: controller.handleSendPressed,
               showUserAvatars: false,
               showUserNames: true,
