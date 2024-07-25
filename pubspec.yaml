@@ -33,6 +33,7 @@ dependencies:
     git: 
       url: https://github.com/ajianaz/adk_tools.git
       ref: c9f522c
+  uuid: ^4.4.2
 
 dev_dependencies: 
   flutter_lints: 4.0.0
