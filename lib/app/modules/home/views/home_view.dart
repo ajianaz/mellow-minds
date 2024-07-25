@@ -6,6 +6,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:magic_view/factory.dart';
 import 'package:magic_view/widget/text/MagicText.dart';
 import 'package:mellowminds/app/utils/helpers.dart';
 
@@ -28,58 +30,94 @@ class HomeView extends GetView<HomeController> {
                   HomeHeader(
                     controller: controller,
                   ),
-                  Gap(42),
+                  Gap(36),
 
                   FeelingCard(
                     controller: controller,
                   ),
 
                   //Chat History
-                  Gap(24),
+                  Gap(36),
                   MagicText.subhead(
                     "Chat History",
+                    fontSize: 20,
                   ),
                   Gap(12),
-                  Expanded(
-                    child: ListView(
-                      scrollDirection: Axis.vertical,
-                      children: [
-                        Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 24, vertical: 24),
-                          decoration: BoxDecoration(
-                            color: Colors.green,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(24),
-                            ),
-                          ),
-                          child: MagicText.subhead(
-                            "I feel sad",
-                            fontSize: 20,
-                            color: Colors.white,
-                          ),
+                  switch (controller.listChatHistory.value.statusRequest) {
+                    StatusRequest.LOADING => Center(
+                        child: CircularProgressIndicator(
+                          color: MagicFactory.colorBrand,
                         ),
-                        Gap(8),
-                        Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 24, vertical: 24),
-                          decoration: BoxDecoration(
-                            color: Colors.green,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(24),
-                            ),
-                          ),
-                          child: MagicText.subhead(
-                            "I feel happy",
-                            fontSize: 20,
-                            color: Colors.white,
-                          ),
+                      ),
+                    StatusRequest.NONE =>
+                      Center(child: MagicText("Data Empty")),
+                    StatusRequest.EMPTY =>
+                      Center(child: MagicText("Data Empty")),
+                    StatusRequest.ERROR =>
+                      Center(child: MagicText("Get Error")),
+                    StatusRequest.SUCCESS => Expanded(
+                        child: ListView.builder(
+                          itemCount:
+                              controller.listChatHistory.value.data?.length,
+                          scrollDirection: Axis.vertical,
+                          itemBuilder: (context, index) {
+                            var item =
+                                controller.listChatHistory.value.data?[index];
+                            int idxIcon = controller.listIconsTitle
+                                .indexOf(item!.feeling.toString());
+                            return Container(
+                              margin: EdgeInsets.symmetric(vertical: 4),
+                              width: double.infinity,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 24, vertical: 24),
+                              decoration: BoxDecoration(
+                                color: Colors.blueGrey.shade500,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(24),
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      MagicText.subhead(
+                                        "${item.feeling} with ${item.reason}",
+                                        fontSize: 20,
+                                        color: Colors.white,
+                                      ),
+                                      MagicText.subhead(
+                                        FormatDateTime.format(
+                                          value: item.createdAt as DateTime,
+                                          format: DateFormat(
+                                            "EEE, dd MMM yyyy",
+                                          ),
+                                        ),
+                                        fontSize: 12,
+                                        color: Colors.white60,
+                                      ),
+                                    ],
+                                  ),
+                                  CircleAvatar(
+                                    radius: 20,
+                                    backgroundColor: Colors.white,
+                                    child: SvgPicture.asset(
+                                      AppAsset.icon(
+                                          controller.listIcons[idxIcon]),
+                                      height: 32,
+                                      width: 32,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
                         ),
-                      ],
-                    ),
-                  )
+                      ),
+                  },
                 ],
               ),
             ),
@@ -169,7 +207,7 @@ class FeelingCard extends StatelessWidget {
                           ),
                           Gap(16),
                           MagicText.subhead(
-                            controller.listIconsTitle[index],
+                            controller.listIconsTitle[index].toUpperCase(),
                             textAlign: TextAlign.center,
                             color: Colors.white,
                           ),

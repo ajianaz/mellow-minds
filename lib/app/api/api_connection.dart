@@ -18,29 +18,29 @@ class ApiConn {
     }
   }
 
-  // static Future<StatusRequestModel<Manga>> getMangaInfo(String slug_id) async {
-  //   try {
-  //     const url = '/fetch-data/manga';
-  //     Map<String, dynamic> parameters = {"id": slug_id};
+  static Future<StatusRequestModel<List<ChatModel>>> getChatHistory() async {
+    try {
+      const url = '/webhook/apimm-chat-history';
 
-  //     final response = await ApiService().request(
-  //         url: url, method: Method.GET, isToken: false, parameters: parameters);
+      final response = await ApiService().request(
+        url: url,
+        method: Method.GET,
+        isToken: true,
+      );
 
-  //     // logSys("RESPONSE : ${response.toString()}");
+      // logSys("RESPONSE : ${response.toString()}");
 
-  //     return StatusRequestModel.success(Manga.fromJson(response));
-
-  //     // final model = toDefaultModel(response);
-  //     // if (model.success == true) {
-  //     //   // return StatusRequestModel.success(QrCodeModel.fromJson(model.data)); // For Single Model (not list)
-  //     //   return StatusRequestModel.success(List<MasterModel>.from(
-  //     //       (model.data).map((u) => MasterModel.fromJson(u))));
-  //     // } else {
-  //     //   logSys(model.message.toString());
-  //     //   return StatusRequestModel.error(failure(response.statusCode, model));
-  //     // }
-  //   } catch (e) {
-  //     rethrow;
-  //   }
-  // }
+      final model = toDefaultModel(response);
+      if (model.success == true) {
+        // return StatusRequestModel.success(QrCodeModel.fromJson(model.data)); // For Single Model (not list)
+        return StatusRequestModel.success(List<ChatModel>.from(
+            (model.data).map((u) => ChatModel.fromJson(u))));
+      } else {
+        logSys(model.message.toString());
+        return StatusRequestModel.error(failure(response.statusCode, model));
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

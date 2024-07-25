@@ -8,10 +8,13 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:magic_view/magic_view.dart';
+import 'package:mellowminds/app/api/api_connection.dart';
+import 'package:mellowminds/app/data/models/chat_model.dart';
 import 'package:mellowminds/app/data/models/jwt_payload_model.dart';
 import 'package:mellowminds/app/routes/app_pages.dart';
 
 class HomeController extends GetxController {
+  var listChatHistory = StatusRequestModel<List<ChatModel>>().obs;
   final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
   String? accessToken;
   String? refreshToken;
@@ -28,11 +31,11 @@ class HomeController extends GetxController {
     'ic_face_bad.svg',
   ];
   var listIconsTitle = [
-    'Great',
-    'Good',
-    'Okay',
-    'Bad',
-    'Sad',
+    'great',
+    'good',
+    'okay',
+    'bad',
+    'sad',
   ];
 
   checkTokenSaved() async {
@@ -48,6 +51,7 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     checkTokenSaved();
+    getChatHistory();
   }
 
   @override
@@ -77,45 +81,61 @@ class HomeController extends GetxController {
   }
 
   openSlider(BuildContext context, int index) {
-    showMagicDialog(context,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            MagicText.subhead(
-              "Rate the Intensity of Your Feeling (${listIconsTitle[index]})",
-            ),
-            FlutterSlider(
-              values: [100],
-              handler: FlutterSliderHandler(
-                child: SvgPicture.asset(
-                  AppAsset.icon(
-                    listIcons[index],
-                  ),
-                  height: 42,
+    showMagicDialog(
+      context,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          MagicText.subhead(
+            "Rate the Intensity of Your Feeling (${listIconsTitle[index]})",
+          ),
+          FlutterSlider(
+            values: [100],
+            handler: FlutterSliderHandler(
+              child: SvgPicture.asset(
+                AppAsset.icon(
+                  listIcons[index],
                 ),
+                height: 42,
               ),
-              max: 100,
-              min: 0,
-              onDragging: (handlerIndex, lowerValue, upperValue) {
-                sliderValue = lowerValue;
-                update();
-                logSys("Bawah: $sliderValue");
-              },
             ),
-            MagicButton(
-              () {
-                Get.back();
-                Get.toNamed(
-                  Routes.FEELING_CONFIRMATION,
-                  arguments: {
-                    'type': listIconsTitle[index],
-                    'rate': sliderValue,
-                  },
-                );
-              },
-              text: "Next",
-            ),
-          ],
-        ));
+            max: 100,
+            min: 0,
+            onDragging: (handlerIndex, lowerValue, upperValue) {
+              sliderValue = lowerValue;
+              update();
+              logSys("Bawah: $sliderValue");
+            },
+          ),
+          MagicButton(
+            () {
+              Get.back();
+              Get.toNamed(
+                Routes.FEELING_CONFIRMATION,
+                arguments: {
+                  'type': listIconsTitle[index],
+                  'rate': sliderValue,
+                },
+              );
+            },
+            text: "Next",
+          ),
+        ],
+      ),
+    );
+  }
+
+  getChatHistory() async {
+    listChatHistory.value = StatusRequestModel.loading();
+    update();
+    try {
+      await ApiConn.getChatHistory().then((value) {
+        listChatHistory.value = value;
+        update();
+      });
+    } catch (e) {
+      logSys("Chat History ERROR");
+      logSys(e.toString());
+    }
   }
 }
