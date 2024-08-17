@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:magic_view/magic_view.dart';
 import 'package:mellowminds/app/api/api_connection.dart';
 import 'package:mellowminds/app/data/models/chat_model.dart';
+import 'package:mellowminds/app/routes/app_pages.dart';
 import 'package:uuid/uuid.dart';
 
 class FeelingConfirmationController extends GetxController {
@@ -73,8 +74,9 @@ class FeelingConfirmationController extends GetxController {
       await ApiConn.postInitChat(params).then((value) {
         if (value.statusRequest == StatusRequest.SUCCESS) {
           chatModel.value = value;
-
           update();
+          Get.back(result: true);
+          // Get.toNamed(Routes.CHATTING, arguments: {'chat': value.data});
         }
       });
     } catch (e) {
@@ -104,8 +106,8 @@ class FeelingConfirmationController extends GetxController {
       textPrimary: "Yes, Sure",
       textSecondary: "Cancel",
       onPrimary: () {
-        submitData(listIconsTitle[index].toLowerCase());
         Get.back();
+        submitData(listIconsTitle[index].toLowerCase());
       },
       onSecondary: () {
         Get.back();

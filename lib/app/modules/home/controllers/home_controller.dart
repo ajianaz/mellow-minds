@@ -19,6 +19,8 @@ class HomeController extends GetxController {
   String? accessToken;
   String? refreshToken;
 
+  bool? isResult;
+
   JwtPayload? jwtPayload;
 
   dynamic sliderValue = 100.0;
@@ -108,15 +110,18 @@ class HomeController extends GetxController {
             },
           ),
           MagicButton(
-            () {
+            () async {
               Get.back();
-              Get.toNamed(
+              var result = await Get.toNamed(
                 Routes.FEELING_CONFIRMATION,
                 arguments: {
                   'type': listIconsTitle[index],
                   'rate': sliderValue,
                 },
               );
+              if (result != null) {
+                refreshChat();
+              }
             },
             text: "Next",
           ),
@@ -136,6 +141,8 @@ class HomeController extends GetxController {
     } catch (e) {
       logSys("Chat History ERROR");
       logSys(e.toString());
+      listChatHistory.value = StatusRequestModel.empty();
+      update();
     }
   }
 
